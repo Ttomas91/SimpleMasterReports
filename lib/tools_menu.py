@@ -487,7 +487,7 @@ class tools_bar():
                 name='text_s',
                 lists=[x for x in range(8,25,2)],
                 stat=3,
-                witch=10,
+                witch=5,
                 ax=0,
                 ay=7,
                 len_ax=1,
@@ -547,8 +547,8 @@ class tools_bar():
     def builds(self,):
         for count in self.list_sub_menu:
             count.build()
-            self.__f_place.grid(row=0,column=0)
-            self.__s_place.grid(row=1,column=0)
+            self.__f_place.grid(row=0,column=0,sticky =  "w")
+            self.__s_place.grid(row=1,column=0,sticky =  "w")
 
     
 
