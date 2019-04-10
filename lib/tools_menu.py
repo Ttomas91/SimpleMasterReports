@@ -1,4 +1,5 @@
 from tkinter import Label
+from tkinter import ttk
 from PIL import ImageTk
 
 class tools_bar():
@@ -384,6 +385,119 @@ class tools_bar():
 
         def f_text_h_right(self,*key):
                 self.__event('right')
+    
+    class cb_sub_menu():
+
+        li_obj=[]
+
+        def __init__(self,pl,pos_ax,pos_ay):
+            self.s_plase=pl
+            self.s_ax=pos_ax
+            self.s_ay=pos_ay
+            self.cl_list=(("Черный",'black'), ("Белый",'white'),
+                        ('Красный','red'),("Оранжевый",'orange'),
+                        ("Желтый",'yellow'), ("Зеленый",'green'), 
+                        ("Фиолетовый",'purple'))
+            #self.colors=[ "Черный", "Белый",'Красный',"Оранжевый","Желтый", "Зеленый", "Фиолетовый"]
+            self.style = ttk.Style()
+            self.style.theme_use('alt')
+            self.style.map('prim-second.TCombobox', fieldbackground=[('readonly','white')])
+            self.style.map('prim-second.TCombobox', foreground=[('readonly','black')])
+            self.style.map('main.TCombobox', fieldbackground=[('readonly','white')])
+            self.style.map('main.TCombobox', foreground=[('readonly','black')])
+
+        def factory_objects(self,name,lists,stat,ax,ay,len_ax,len_ay,func,styles,*a_key,**k_key,):
+
+            ob={}
+            ob['name']=name
+            ob['list']=lists
+            ob['status']=stat
+            ob['ax']=self.s_ax+ax
+            ob['ay']=self.s_ay+ay
+            ob['len_ax']=len_ax
+            ob['len_ay']=len_ay
+            ob['func_b1']=func
+            ob['styl']=styles
+
+            for x in range(len(a_key)):
+                ob['a_key_'+str(x)]=a_key[x]
+
+            for x in k_key:
+                ob[x]=k_key[x]
+
+            return ob
+        
+        def build(self,):
+
+            for x in self.li_obj:
+                
+                bit=ttk.Combobox(self.s_plase, values=x['list'],style=x['styl'])
+                bit.set(x['list'][x['status']])    
+                bit.grid(row=x['ax'],column=x['ay'],rowspan=x['len_ax'],columnspan=x['len_ay'],)
+                    
+                bit['state'] = 'readonly'
+                bit.bind('<Button-1>', x['func_b1'])
+
+                x['object']=bit
+        
+        
+        def create(self,):  
+
+            text_c=self.factory_objects(
+                name='text_c',
+                lists=[ 'text' for x in self.cl_list],
+                stat=0,
+                ax=0,
+                ay=0,
+                len_ax=1,
+                len_ay=2,
+                func=self.f_text_colors,
+                styles='prim-second.TCombobox'
+                )
+
+            fone_c=self.factory_objects(
+                name='fone_c',
+                lists=[ 'fone' for x in self.cl_list],
+                stat=1,
+                ax=0,
+                ay=2,
+                len_ax=1,
+                len_ay=2,
+                func=self.f_fone_colors,
+                styles='prim-second.TCombobox')
+
+            fronts=self.factory_objects(
+                name='fronts',
+                lists=['arial', 'timenewroman',],
+                stat=0,
+                ax=0,
+                ay=4,
+                len_ax=1,
+                len_ay=2,
+                func=self.f_fronts,
+                styles='main.TCombobox')
+
+            text_s=self.factory_objects(
+                name='text_s',
+                lists=[x for x in range(8,25,2)],
+                stat=3,
+                ax=0,
+                ay=6,
+                len_ax=1,
+                len_ay=1,
+                func=self.f_text_s,
+                styles='main.TCombobox')
+            
+            self.li_obj=[text_c,fone_c,fronts,text_s]
+
+        def f_text_colors(self,):
+            pass
+        def f_fone_colors(self,):
+            pass
+        def f_fronts(self,):
+            pass
+        def f_text_s(self,):
+            pass
 
     def init(self,):
         self._bord=self.borders(pl=self.__place,
