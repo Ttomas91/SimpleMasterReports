@@ -5,12 +5,12 @@ class tools_bar():
     
     def __init__(self,pl,main_pach,ax=0,ay=0):
 
-        self.place=pl
-        self.icon_patch=main_pach+'/icons/'
-        self.ax_start=ax
-        self.ay_start=ay 
+        self.__place=pl
+        self.__icon_patch=main_pach+'/icons/'
+        self.__ax_start=ax
+        self.__ay_start=ay 
 
-    class sub_menu():
+    class button_sub_menu():
 
         li_obj=[]
 
@@ -55,7 +55,7 @@ class tools_bar():
 
                 x['object']=bit
 
-    class borders(sub_menu):
+    class borders(button_sub_menu):
 
         def create(self,):
             up=self.factory_objects(
@@ -182,7 +182,7 @@ class tools_bar():
         def f_bord_all(self,*key):
             self.__solo_status('all')
         
-    class join(sub_menu):
+    class join(button_sub_menu):
 
         def create(self,):    
             up=self.factory_objects(
@@ -244,7 +244,7 @@ class tools_bar():
         def f_join_down(self,*key):
             print('test Button down')
         
-    class text_v(sub_menu):
+    class text_v(button_sub_menu):
         
         def create(self,):    
 
@@ -386,23 +386,23 @@ class tools_bar():
                 self.__event('right')
 
     def init(self,):
-        bord=self.borders(pl=self.place,
-                          ic_pach = self.icon_patch,
-                          pos_ax = 0,
-                          pos_ay =0,)
-        t_ax1=self.text_v(pl=self.place,
-                          ic_pach = self.icon_patch,
-                          pos_ax = 0,
-                          pos_ay =3,)
-        t_ax0=self.text_h(pl=self.place,
-                          ic_pach = self.icon_patch,
-                          pos_ax = 1,
-                          pos_ay =3,)
-        joy=self.join(pl=self.place,
-                          ic_pach = self.icon_patch,
-                          pos_ax = 0,
-                          pos_ay =6,)
-        self.list_sub_menu=[bord,t_ax1,t_ax0,joy]
+        self._bord=self.borders(pl=self.__place,
+                          ic_pach = self.__icon_patch,
+                          pos_ax = self.__ax_start+0,
+                          pos_ay = self.__ay_start+0,)
+        self._t_ax1=self.text_v(pl=self.__place,
+                          ic_pach = self.__icon_patch,
+                          pos_ax = self.__ax_start+0,
+                          pos_ay = self.__ay_start+3,)
+        self._t_ax0=self.text_h(pl=self.__place,
+                          ic_pach = self.__icon_patch,
+                          pos_ax = self.__ax_start+1,
+                          pos_ay = self.__ay_start+3,)
+        self._joy=self.join(pl=self.__place,
+                          ic_pach = self.__icon_patch,
+                          pos_ax = self.__ax_start+0,
+                          pos_ay = self.__ay_start+6,)
+        self.list_sub_menu=[self._bord,self._t_ax1,self._t_ax0,self._joy]
 
     def creates(self,):
         for count in self.list_sub_menu:
