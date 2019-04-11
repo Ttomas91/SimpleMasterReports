@@ -14,7 +14,7 @@ class tools_bar():
         self.__ax_start=ax
         self.__ay_start=ay 
 
-    class button_sub_menu():
+    class sub_menu():
 
         li_obj=[]
 
@@ -69,7 +69,7 @@ class tools_bar():
             pass
 
 
-    class borders(button_sub_menu):
+    class borders(sub_menu):
 
         def create(self,):
             up=self.factory_objects(
@@ -196,7 +196,7 @@ class tools_bar():
         def f_bord_all(self,*key):
             self.__solo_status('all')
         
-    class join(button_sub_menu):
+    class join(sub_menu):
 
         def create(self,):    
             up=self.factory_objects(
@@ -258,7 +258,7 @@ class tools_bar():
         def f_join_down(self,*key):
             print('test Button down')
         
-    class text_v(button_sub_menu):
+    class text_v(sub_menu):
         
         def create(self,):    
 
@@ -329,7 +329,7 @@ class tools_bar():
         def f_text_v_bottom(self,*key):
             self.__event('bottom')
          
-    class text_h(text_v):
+    class text_h(sub_menu):
         
         def create(self,):  
 
@@ -399,7 +399,7 @@ class tools_bar():
         def f_text_h_right(self,*key):
                 self.__event('right')
     
-    class cb_sub_menu(button_sub_menu):
+    class cb_sub_menu(sub_menu):
 
 
         def __init__(self,pl,pos_ax,pos_ay):
@@ -458,7 +458,7 @@ class tools_bar():
 
             self.text_c=self.factory_objects(
                 name='text_c',
-                lists=self.colors,#[ 'text' for x in self.cl_list],
+                lists=self.colors,
                 stat=0,
                 witch=10,
                 ax=0,
@@ -471,7 +471,7 @@ class tools_bar():
 
             self.fone_c=self.factory_objects(
                 name='fone_c',
-                lists=self.colors,#[ 'fone' for x in self.cl_list],
+                lists=self.colors,
                 stat=1,
                 witch=10,
                 ax=0,
@@ -483,7 +483,7 @@ class tools_bar():
 
             self.fronts=self.factory_objects(
                 name='fronts',
-                lists=['arial', 'timenewroman',],
+                lists=['arial', 'time',],
                 stat=0,
                 witch=15,
                 ax=0,
@@ -528,7 +528,7 @@ class tools_bar():
             print(self.text_s['object'].get())
             pass
     
-    class txt_sub_menu(button_sub_menu):
+    class txt_sub_menu(sub_menu):
 
         def __init__(self,pl,pos_ax,pos_ay):
             self.s_plase=pl
