@@ -1,4 +1,4 @@
-from tkinter import Label,Frame
+from tkinter import Label,Frame,Text
 from tkinter import ttk
 from PIL import ImageTk
 
@@ -7,8 +7,9 @@ class tools_bar():
     def __init__(self,pl,main_pach,ax=0,ay=0):
 
         self.__place=pl
-        self.__f_place=Frame(self.__place,bd=1)
-        self.__s_place=Frame(self.__place,bd=1)
+        self.__1_place=Frame(self.__place,bd=1)
+        self.__2_place=Frame(self.__place,bd=1)
+        self.__3_place=Frame(self.__place,bd=1)
         self.__icon_patch=main_pach+'/icons/'
         self.__ax_start=ax
         self.__ay_start=ay 
@@ -57,6 +58,10 @@ class tools_bar():
                 x['status']=0
 
                 x['object']=bit
+        
+        def create(self,):
+            pass
+
 
     class borders(button_sub_menu):
 
@@ -357,7 +362,7 @@ class tools_bar():
                 func=self.f_text_h_right,)
             
             self.li_obj=[left,centr,right]
-
+        
         def __set_status(self,name,st):                
             for b in self.li_obj:
                 if b['name']!=name:
@@ -388,9 +393,8 @@ class tools_bar():
         def f_text_h_right(self,*key):
                 self.__event('right')
     
-    class cb_sub_menu():
+    class cb_sub_menu(button_sub_menu):
 
-        li_obj=[]
 
         def __init__(self,pl,pos_ax,pos_ay):
             self.s_plase=pl
@@ -517,28 +521,80 @@ class tools_bar():
         def f_text_s(self,*kvar):
             print(self.text_s['object'].get())
             pass
+    
+    class txt_sub_menu(button_sub_menu):
+
+        def __init__(self,pl,pos_ax,pos_ay):
+            self.s_plase=pl
+            self.s_ax=pos_ax
+            self.s_ay=pos_ay
+
+        def factory_objects(self,name,witch,height,ax,ay,len_ax,len_ay,*a_key,**k_key,):
+
+            ob={}
+            ob['name']=name
+            ob['witch']=witch
+            ob['height']=height
+            ob['ax']=self.s_ax+ax
+            ob['ay']=self.s_ay+ay
+            ob['len_ax']=len_ax
+            ob['len_ay']=len_ay
+
+            for x in range(len(a_key)):
+                ob['a_key_'+str(x)]=a_key[x]
+
+            for x in k_key:
+                ob[x]=k_key[x]
+
+            return ob
+        
+        def build(self,):
+
+            for x in self.li_obj:
+                
+                bit=Text(self.s_plase, width=x['witch'],height=x['height'])
+                bit.grid(row=x['ax'],column=x['ay'],rowspan=x['len_ax'],columnspan=x['len_ay'],)
+                    
+                x['object']=bit
+        
+        def create(self,):  
+
+            self.text_in=self.factory_objects(
+                name='text_in',
+                witch=40,
+                height=1,
+                ax=0,
+                ay=0,
+                len_ax=1,
+                len_ay=2
+                )
+
+            self.li_obj=[self.text_in]
 
     def init(self,):
-        self._bord=self.borders(pl=self.__f_place,
+        self._bord=self.borders(pl=self.__1_place,
                           ic_pach = self.__icon_patch,
                           pos_ax = self.__ax_start+0,
                           pos_ay = self.__ay_start+0,)
-        self._t_ax1=self.text_v(pl=self.__f_place,
+        self._t_ax1=self.text_v(pl=self.__1_place,
                           ic_pach = self.__icon_patch,
                           pos_ax = self.__ax_start+0,
                           pos_ay = self.__ay_start+3,)
-        self._t_ax0=self.text_h(pl=self.__f_place,
+        self._t_ax0=self.text_h(pl=self.__1_place,
                           ic_pach = self.__icon_patch,
                           pos_ax = self.__ax_start+1,
                           pos_ay = self.__ay_start+3,)
-        self._joy=self.join(pl=self.__f_place,
+        self._joy=self.join(pl=self.__1_place,
                           ic_pach = self.__icon_patch,
                           pos_ax = self.__ax_start+0,
                           pos_ay = self.__ay_start+6,)
-        self._combox=self.cb_sub_menu(pl=self.__s_place,
+        self._combox=self.cb_sub_menu(pl=self.__2_place,
                           pos_ax = self.__ax_start+0,
-                          pos_ay = self.__ay_start+0,)                          
-        self.list_sub_menu=[self._bord,self._t_ax1,self._t_ax0,self._joy,self._combox]
+                          pos_ay = self.__ay_start+0,) 
+        self._txt_plot=self.txt_sub_menu(pl=self.__3_place,
+                          pos_ax = self.__ax_start+0,
+                          pos_ay = self.__ay_start+0,)                         
+        self.list_sub_menu=[self._bord,self._t_ax1,self._t_ax0,self._joy,self._combox,self._txt_plot]
 
     def creates(self,):
         for count in self.list_sub_menu:
@@ -547,8 +603,9 @@ class tools_bar():
     def builds(self,):
         for count in self.list_sub_menu:
             count.build()
-            self.__f_place.grid(row=0,column=0,sticky =  "w")
-            self.__s_place.grid(row=1,column=0,sticky =  "w")
+            self.__1_place.grid(row=0,column=0,sticky =  "w")
+            self.__2_place.grid(row=1,column=0,sticky =  "w")
+            self.__3_place.grid(row=2,column=0,sticky =  "w")
 
     
 

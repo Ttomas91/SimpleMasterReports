@@ -1,4 +1,4 @@
-from tkinter import Tk 
+from tkinter import Tk , Frame
 import os
 import sys
 
@@ -24,12 +24,12 @@ root.title(u'toolbar_exemp')
 root.geometry('430x380+50+100')
 
 root.resizable(True, True)
-
-createtb=tools_menu.tools_bar(root,main_pach)
+menu=Frame(root,bd=1)
+createtb=tools_menu.tools_bar(menu,main_pach)
 createtb.init()
 createtb.creates()
 createtb.builds()
-
+menu.grid(row=0,column=0)
 print ('ok')
 root.mainloop()
 print ('main exit')
