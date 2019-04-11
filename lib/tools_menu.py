@@ -62,6 +62,12 @@ class tools_bar():
         def create(self,):
             pass
 
+        def get(self,):
+            pass
+        
+        def set(self,):
+            pass
+
 
     class borders(button_sub_menu):
 
@@ -552,9 +558,9 @@ class tools_bar():
 
             for x in self.li_obj:
                 
-                bit=Text(self.s_plase, width=x['witch'],height=x['height'])
+                bit=Text(self.s_plase, width=x['witch'],height=x['height'],wrap='none')
                 bit.grid(row=x['ax'],column=x['ay'],rowspan=x['len_ax'],columnspan=x['len_ay'],)
-                    
+                bit.see('end')
                 x['object']=bit
         
         def create(self,):  
