@@ -95,7 +95,7 @@ class tools_bar():
                         elif in_obj['type_obj']=='boxplot':
 
                             if in_obj['status']!=dict_par[key]['status']:
-                                in_obj['func_b1']()
+                                in_obj['func_b1'](status=dict_par[key]['status'])
                                 
                         elif in_obj['type_obj']=='textplot':
                             
@@ -307,7 +307,7 @@ class tools_bar():
         def create(self,):    
 
             top=self.factory_objects(
-                name='top',
+                name='v_top',
                 ax=0,
                 ay=0,
                 len_ax=1,
@@ -319,7 +319,7 @@ class tools_bar():
                 type_obj='button')
 
             centr=self.factory_objects(
-                name='centr',
+                name='v_centr',
                 ax=0,
                 ay=1,
                 len_ax=1,
@@ -331,7 +331,7 @@ class tools_bar():
                 type_obj='button')
 
             bottom=self.factory_objects(
-                name='bottom',
+                name='v_bottom',
                 ax=0,
                 ay=2,
                 len_ax=1,
@@ -367,20 +367,20 @@ class tools_bar():
 
 
         def f_text_v_top(self,*key):
-            self.__event('top')
+            self.__event('v_top')
             
         def f_text_v_centr(self,*key):
-            self.__event('centr')
+            self.__event('v_centr')
 
         def f_text_v_bottom(self,*key):
-            self.__event('bottom')
+            self.__event('v_bottom')
          
     class text_h(sub_menu):
         
         def create(self,):  
 
             left=self.factory_objects(
-                name='left',
+                name='h_left',
                 ax=0,
                 ay=0,
                 len_ax=1,
@@ -392,7 +392,7 @@ class tools_bar():
                 type_obj='button')
 
             centr=self.factory_objects(
-                name='centr',
+                name='h_centr',
                 ax=0,
                 ay=1,
                 len_ax=1,
@@ -404,7 +404,7 @@ class tools_bar():
                 type_obj='button')
 
             right=self.factory_objects(
-                name='right',
+                name='h_right',
                 ax=0,
                 ay=2,
                 len_ax=1,
@@ -439,13 +439,13 @@ class tools_bar():
                         x['object'].configure(image=x['icon_0'])
         
         def f_text_h_left(self,*key):
-                self.__event('left')
+                self.__event('h_left')
             
         def f_text_h_centr(self,*key):
-                self.__event('centr')
+                self.__event('h_centr')
 
         def f_text_h_right(self,*key):
-                self.__event('right')
+                self.__event('h_right')
     
     class cb_sub_menu(sub_menu):
 
@@ -566,27 +566,31 @@ class tools_bar():
             
             
         
-        def f_text_colors(self,**kvar):
+        def f_text_colors(self,*arg,**kvar):
             if 'status' in kvar:
+                self.text_c['status']=kvar['status']
                 self.text_c['object'].set(self.text_c['list'][self.text_c['status']])
 
             self.__set_style('txt',self.cl_list[self.text_c['object'].current()][1])
 
-        def f_fone_colors(self,**kvar):
+        def f_fone_colors(self,*arg,**kvar):
             if 'status' in kvar:
-                self.text_c['object'].set(self.text_c['list'][self.text_c['status']])
+                self.fone_c['status']=kvar['status']
+                self.fone_c['object'].set(self.fone_c['list'][self.fone_c['status']])
 
             self.__set_style('ground',self.cl_list[self.fone_c['object'].current()][1])
 
-        def f_fronts(self,**kvar):
+        def f_fronts(self,*arg,**kvar):
             if 'status' in kvar:
-                self.text_c['object'].set(self.text_c['list'][self.text_c['status']])
+                self.fronts['status']=kvar['status']
+                self.fronts['object'].set(self.fronts['list'][self.fronts['status']])
 
             print(self.fronts['object'].get())
 
-        def f_text_s(self,**kvar):
+        def f_text_s(self,*arg,**kvar):
             if 'status' in kvar:
-                self.text_c['object'].set(self.text_c['list'][self.text_c['status']])
+                self.text_s['status']=kvar['status']
+                self.text_s['object'].set(self.text_s['list'][self.text_s['status']])
 
             print(self.text_s['object'].get())
 
@@ -635,7 +639,8 @@ class tools_bar():
                 ay=0,
                 len_ax=1,
                 len_ay=2,
-                type_obj='textplot')
+                type_obj='textplot',
+                status='')
 
             self.li_obj=[self.text_in]
 
