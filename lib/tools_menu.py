@@ -63,17 +63,53 @@ class tools_bar():
             pass
 
         def get(self,):
-            pass
-        
-        def set(self,):
-            pass
+            dict_par={}
+            for in_obj in self.li_obj:
+                get_par={}
+                if in_obj['type_obj']=='button':
+                    get_par['status']=in_obj['status']
 
+                elif in_obj['type_obj']=='boxplot':
+
+                    get_par['status']=in_obj['status']
+                    get_par['znach']=in_obj['list'][in_obj['status']]
+                                
+                elif in_obj['type_obj']=='textplot':
+
+                    get_par['status']=in_obj['object'].get(1.0, 'end') 
+                    get_par['znach']=in_obj['object'].get(1.0, 'end') 
+
+                dict_par[in_obj['name']]=get_par
+
+            return dict_par
+        
+        def set(self,dict_par):
+            for in_obj in self.li_obj:
+                for key in dict_par:
+                    if in_obj['name']==key:
+                        if in_obj['type_obj']=='button':
+
+                            if in_obj['status']!=dict_par[key]['status']:
+                                in_obj['func_b1']()
+
+                        elif in_obj['type_obj']=='boxplot':
+
+                            if in_obj['status']!=dict_par[key]['status']:
+                                in_obj['func_b1']()
+                                
+                        elif in_obj['type_obj']=='textplot':
+                            
+                            if in_obj['status']!=dict_par[key]['status']:
+
+                                in_obj['object'].delete(1.0, 'end') 
+                                in_obj['object'].insert(1.0, dict_par[key]['status'])
+                        
 
     class borders(sub_menu):
 
         def create(self,):
             up=self.factory_objects(
-                name='up',
+                name='b_up',
                 ax=0,
                 ay=1,
                 len_ax=1,
@@ -81,10 +117,11 @@ class tools_bar():
                 i_0='up_border_null',
                 i_1='up_border_solid',
                 i_2='up_border_solid',
-                func=self.f_bord_up )
+                func=self.f_bord_up,
+                type_obj='button' )
         
             all=self.factory_objects(
-                name='all',
+                name='b_all',
                 ax=0,
                 ay=2,
                 len_ax=1,
@@ -92,10 +129,11 @@ class tools_bar():
                 i_0='all_border_null',
                 i_1='all_border_solid',
                 i_2='all_border_solid',
-                func=self.f_bord_all,)
+                func=self.f_bord_all,
+                type_obj='button')
 
             left=self.factory_objects(
-                name='left',
+                name='b_left',
                 ax=1,
                 ay=0,
                 len_ax=1,
@@ -103,10 +141,11 @@ class tools_bar():
                 i_0='left_border_null',
                 i_1='left_border_solid',
                 i_2='left_border_solid',
-                func=self.f_bord_left)
+                func=self.f_bord_left,
+                type_obj='button')
 
             down=self.factory_objects(
-                name='down',
+                name='b_down',
                 ax=1,
                 ay=1,
                 len_ax=1,
@@ -114,10 +153,11 @@ class tools_bar():
                 i_0='down_border_null',
                 i_1='down_border_solid',
                 i_2='down_border_solid',
-                func=self.f_bord_down)
+                func=self.f_bord_down,
+                type_obj='button')
 
             right=self.factory_objects(
-                name='right',
+                name='b_right',
                 ax=1,
                 ay=2,
                 len_ax=1,
@@ -125,18 +165,19 @@ class tools_bar():
                 i_0='right_border_null',
                 i_1='right_border_solid',
                 i_2='right_border_solid',
-                func=self.f_bord_right)
+                func=self.f_bord_right,
+                type_obj='button')
             
             self.li_obj=[up,left,down,right,all,]
         
         def __chec_all(self,):
             df=True
             for v in self.li_obj:
-                if v['name']!='all':
+                if v['name']!='b_all':
                     if v['status']!=1:
                         df=False
             if df==True:
-                self.__all_stat('all',tf=1)
+                self.__all_stat('b_all',tf=1)
         
         def __all_stat(self,name,tf):
 
@@ -158,7 +199,7 @@ class tools_bar():
             for x in self.li_obj:
                 if x['name']==ob_name:
 
-                    if ob_name=='all':
+                    if ob_name=='b_all':
                         if x['status']==0:
                             x['status']=1
                             x['object'].configure(image=x['icon_1'])                         
@@ -167,7 +208,7 @@ class tools_bar():
                             x['status']=0
                             x['object'].configure(image=x['icon_0'])
                         for n in self.li_obj:
-                            if n['name']!='all':
+                            if n['name']!='b_all':
                                 self.__all_stat(n['name'],x['status'])
 
                     else:
@@ -179,28 +220,28 @@ class tools_bar():
                         elif x['status']==1:
                             x['status']=0
                             x['object'].configure(image=x['icon_0'])
-                            self.__all_stat('all',0)
+                            self.__all_stat('b_all',0)
 
         def f_bord_up(self,*key):
-            self.__solo_status('up')
+            self.__solo_status('b_up')
         
         def f_bord_left(self,*key):
-            self.__solo_status('left')
+            self.__solo_status('b_left')
         
         def f_bord_right(self,*key):
-            self.__solo_status('right')
+            self.__solo_status('b_right')
 
         def f_bord_down(self,*key):
-            self.__solo_status('down')
+            self.__solo_status('b_down')
         
         def f_bord_all(self,*key):
-            self.__solo_status('all')
+            self.__solo_status('b_all')
         
     class join(sub_menu):
 
         def create(self,):    
             up=self.factory_objects(
-                name='up',
+                name='j_up',
                 ax=0,
                 ay=1,
                 len_ax=1,
@@ -209,10 +250,10 @@ class tools_bar():
                 i_1='up',
                 i_2='up',
                 func=self.f_join_up,
-                )
+                type_obj='button')
 
             left=self.factory_objects(
-                name='left',
+                name='j_left',
                 ax=1,
                 ay=0,
                 len_ax=1,
@@ -220,10 +261,11 @@ class tools_bar():
                 i_0='left',
                 i_1='left',
                 i_2='left',
-                func=self.f_join_left,)
+                func=self.f_join_left,
+                type_obj='button')
 
             down=self.factory_objects(
-                name='down',
+                name='j_down',
                 ax=1,
                 ay=1,
                 len_ax=1,
@@ -231,10 +273,11 @@ class tools_bar():
                 i_0='down',
                 i_1='down',
                 i_2='down',
-                func=self.f_join_down,)
+                func=self.f_join_down,
+                type_obj='button')
 
             right=self.factory_objects(
-                name='right',
+                name='j_right',
                 ax=1,
                 ay=2,
                 len_ax=1,
@@ -242,7 +285,8 @@ class tools_bar():
                 i_0='right',
                 i_1='right',
                 i_2='right',
-                func=self.f_join_right,)
+                func=self.f_join_right,
+                type_obj='button')
             
             self.li_obj=[up,left,down,right,]
 
@@ -272,7 +316,7 @@ class tools_bar():
                 i_1='top_text_ax1_select',
                 i_2='top_text_ax1_select',
                 func=self.f_text_v_top,
-                )
+                type_obj='button')
 
             centr=self.factory_objects(
                 name='centr',
@@ -283,7 +327,8 @@ class tools_bar():
                 i_0='centre_text_ax1',
                 i_1='centre_text_ax1_select',
                 i_2='centre_text_ax1_select',
-                func=self.f_text_v_centr,)
+                func=self.f_text_v_centr,
+                type_obj='button')
 
             bottom=self.factory_objects(
                 name='bottom',
@@ -294,7 +339,8 @@ class tools_bar():
                 i_0='bottom_text_ax1',
                 i_1='bottom_text_ax1_select',
                 i_2='bottom_text_ax1_select',
-                func=self.f_text_v_bottom,)
+                func=self.f_text_v_bottom,
+                type_obj='button')
             
             self.li_obj=[top,centr,bottom]
 
@@ -343,7 +389,7 @@ class tools_bar():
                 i_1='left_text_ax0_select',
                 i_2='left_text_ax0_select',
                 func=self.f_text_h_left,
-                )
+                type_obj='button')
 
             centr=self.factory_objects(
                 name='centr',
@@ -354,7 +400,8 @@ class tools_bar():
                 i_0='centre_text_ax0',
                 i_1='centre_text_ax0_select',
                 i_2='centre_text_ax0_select',
-                func=self.f_text_h_centr,)
+                func=self.f_text_h_centr,
+                type_obj='button')
 
             right=self.factory_objects(
                 name='right',
@@ -365,7 +412,8 @@ class tools_bar():
                 i_0='right_text_ax0',
                 i_1='right_text_ax0_select',
                 i_2='right_text_ax0_select',
-                func=self.f_text_h_right,)
+                func=self.f_text_h_right,
+                type_obj='button')
             
             self.li_obj=[left,centr,right]
         
@@ -466,8 +514,8 @@ class tools_bar():
                 len_ax=1,
                 len_ay=2,
                 func=self.f_text_colors,
-                styles='prim-second.TCombobox'
-                )
+                styles='prim-second.TCombobox',
+                type_obj='boxplot')
 
             self.fone_c=self.factory_objects(
                 name='fone_c',
@@ -479,7 +527,8 @@ class tools_bar():
                 len_ax=1,
                 len_ay=2,
                 func=self.f_fone_colors,
-                styles='prim-second.TCombobox')
+                styles='prim-second.TCombobox',
+                type_obj='boxplot')
 
             self.fronts=self.factory_objects(
                 name='fronts',
@@ -491,7 +540,8 @@ class tools_bar():
                 len_ax=1,
                 len_ay=3,
                 func=self.f_fronts,
-                styles='main.TCombobox')
+                styles='main.TCombobox',
+                type_obj='boxplot')
 
             self.text_s=self.factory_objects(
                 name='text_s',
@@ -503,7 +553,8 @@ class tools_bar():
                 len_ax=1,
                 len_ay=2,
                 func=self.f_text_s,
-                styles='main.TCombobox')
+                styles='main.TCombobox',
+                type_obj='boxplot')
             
             self.li_obj=[self.text_c,self.fone_c,self.fronts,self.text_s]
     
@@ -515,19 +566,30 @@ class tools_bar():
             
             
         
-        def f_text_colors(self,*kvar):
+        def f_text_colors(self,**kvar):
+            if 'status' in kvar:
+                self.text_c['object'].set(self.text_c['list'][self.text_c['status']])
+
             self.__set_style('txt',self.cl_list[self.text_c['object'].current()][1])
-            pass
-        def f_fone_colors(self,*kvar):
+
+        def f_fone_colors(self,**kvar):
+            if 'status' in kvar:
+                self.text_c['object'].set(self.text_c['list'][self.text_c['status']])
+
             self.__set_style('ground',self.cl_list[self.fone_c['object'].current()][1])
-            pass
-        def f_fronts(self,*kvar):
+
+        def f_fronts(self,**kvar):
+            if 'status' in kvar:
+                self.text_c['object'].set(self.text_c['list'][self.text_c['status']])
+
             print(self.fronts['object'].get())
-            pass
-        def f_text_s(self,*kvar):
+
+        def f_text_s(self,**kvar):
+            if 'status' in kvar:
+                self.text_c['object'].set(self.text_c['list'][self.text_c['status']])
+
             print(self.text_s['object'].get())
-            pass
-    
+
     class txt_sub_menu(sub_menu):
 
         def __init__(self,pl,pos_ax,pos_ay):
@@ -572,8 +634,8 @@ class tools_bar():
                 ax=0,
                 ay=0,
                 len_ax=1,
-                len_ay=2
-                )
+                len_ay=2,
+                type_obj='textplot')
 
             self.li_obj=[self.text_in]
 
@@ -613,6 +675,18 @@ class tools_bar():
             self.__2_place.grid(row=1,column=0,sticky =  "w")
             self.__3_place.grid(row=2,column=0,sticky =  "w")
 
+    def gets(self,):
+        ans={}
+        for count in self.list_sub_menu:
+            tmp=count.get()
+            for x in tmp:
+                ans[x]=tmp[x]
+
+        return ans
+
+    def sets(self,dic_set):
+        for count in self.list_sub_menu:
+            count.set(dic_set)
     
 
 

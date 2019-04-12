@@ -21,7 +21,7 @@ with add_path(lib_pach):
 print ()
 root=Tk()
 root.title(u'toolbar_exemp')
-root.geometry('430x380+50+100')
+root.geometry('100x100+50+100')
 
 root.resizable(True, True)
 menu=Frame(root,bd=1)
